@@ -1,0 +1,116 @@
+{
+  "seo": {
+    "title": "Arya Sanat Akademisi | Kayseri Müzik Kursu",
+    "description": "Kayseri Kocasinan'da profesyonel müzik eğitimi. Bateri, Gitar, Elektro gitar, Bass Gitar, Ukulele, Keman, Çello, Kanun, Yan Flüt, Klarnet, Saksafon, Trompet, Güzel Sanatlar Lisesine Ve Fakültesine Hazırlık, Bilsem Sınavlarına Hazırlık, Resim, Şan (Solfej), Ud, Ney, Bağlama ve Piyano dersleri."
+  },
+  "contact": {
+    "phone": "+90 552 611 21 01",
+    "email": "aryasanatakademisi@gmail.com",
+    "address": "Erciyesevler, Tuna Cd. No:22 / 1 , 38020 Kocasinan/Kayseri",
+    "workingHours": "Salı - Pazar: 10:00 - 19:00",
+    "whatsapp": "905526112101"
+  },
+  "stats": {
+    "certification": "MEB Onaylı",
+    "location": "Kocasinan",
+    "studentsCount": "500+",
+    "teachersCount": "15+",
+    "experienceYears": "10+"
+  },
+  "hero": {
+    "tag": "✦ MEB Onaylı Sertifikalı Eğitim",
+    "title": "Arya Sanat Akademisi",
+    "titleHighlight": "Profesyonel Müzik Eğitimi",
+    "desc": "Müziğin büyülü dünyasına adım atın. Uzman eğitmenlerimizle Gitar, Piyano, Bateri ve Keman derslerinde sınırlarınızı keşfedin."
+  },
+  "whyUs": {
+    "tag": "Fark Yaratan Eğitim",
+    "title": "Neden Arya Sanat?",
+    "desc": "Sanat, sadece bir hobi ya da öğrenilen bir teknik değil; insanın kendini keşfetme yolculuğudur. Arya Sanat Akademi olarak biz, bu yolculukta sadece bir kurs değil, potansiyelinizi özgürce açığa çıkarabileceğiniz güvenli bir liman sunuyoruz.\n​İşte bizi tercih etmeniz için en önemli nedenler;",
+    "features": [
+      {
+        "id": "feature-0",
+        "title": "Uzman ve İlham Veren Eğitmen Kadrosu",
+        "desc": " Eğitmenlerimiz sadece alanlarında akademik başarıya sahip profesyoneller değil; aynı zamanda sanatı sevdirmeyi misyon edinmiş, pedagojik formasyona ve güçlü bir iletişim diline sahip mentorlardır.",
+        "items": "Konservatuvar mezunu kadro, Aktif müzisyen-eğitmenler, Bireysel öğrenme planı",
+        "image": "/assets/uploads/1784559027245_WhatsApp_Image_2026-07-19_at_8.52.36_PM.jpeg",
+        "videoPreview": "/assets/uploads/1784559047839_WhatsApp_Video_2026-07-19_at_8.52.53_PM.mp4"
+      },
+      {
+        "id": "feature-1",
+        "title": "Modern ve İlham Verici Atölyeler",
+        "desc": "Sanat, doğru atmosferde filizlenir. Arya Sanat bünyesindeki tüm sınıflar ve atölyeler, öğrencilerimizin yaratıcılığını tetikleyecek, konforlu ve en güncel ekipmanlarla donatılmış bir yapıda tasarlanmıştır.",
+        "items": "Ses yalıtımlı stüdyolar, Kayıt ekipmanları, Konser salonu",
+        "image": "",
+        "videoPreview": "/assets/uploads/1784559842004_WhatsApp_Video_2026-07-19_at_8.52.53_PM__2_.mp4"
+      },
+      {
+        "id": "feature-2",
+        "title": "MEB Onaylı Sertifika",
+        "desc": "Milli Eğitim Bakanlığı onaylı sertifikalarımız, müzik kariyerinizde resmi bir adım atmanızı sağlar. Uluslararası geçerliliği olan sınav hazırlık programlarımız da mevcuttur.",
+        "items": "MEB onaylı belgeler, ABRSM sınav hazırlığı, Dijital sertifika sistemi",
+        "image": "",
+        "videoPreview": ""
+      },
+      {
+        "id": "feature-3",
+        "title": "Sanatla Büyüyen Özgüven",
+        "desc": " Amacımız sadece enstrüman çalmayı veya resim yapmayı öğretmek değil. Sanat aracılığıyla öğrencilerimizin odaklanma becerilerini geliştirmeyi, problem çözme yeteneklerini artırmayı ve en önemlisi hayata karşı güçlü bir özgüven kazanmalarını sağlıyoruz.",
+        "items": "",
+        "image": "",
+        "videoPreview": ""
+      },
+      {
+        "id": "feature-4",
+        "title": "Sahnede Parıldama Fırsatı",
+        "desc": "Öğrenilen her detayın bir başarı hikayesine dönüşmesini önemsiyoruz. Yıl sonu gösterileri, sergiler ve dynamic dinletilerle öğrencilerimize emeklerini sahnede sergileme ve alkışlanmanın gururunu yaşatıyoruz.",
+        "items": "",
+        "image": "",
+        "videoPreview": ""
+      }
+    ]
+  },
+  "teachersSection": {
+    "tag": "Uzman Kadromuz",
+    "title": "Eğitmenlerimiz",
+    "desc": "Alanlarında deneyimli ve sizinle özel ilgilenebilecek eğitmen kadromuzla yanınızdayız.",
+    "list": []
+  },
+  "gallery": {
+    "title": "Akademimizden Kareler",
+    "desc": "Atölyelerimiz, bireysel dersliklerimiz ve sanatsal etkinliklerimizden en özel anlar.",
+    "images": [
+      "/assets/uploads/1784653462369_WhatsApp_Image_2026-07-19_at_8.52.39_PM.jpeg",
+      "/assets/uploads/1784653474765_WhatsApp_Image_2026-07-19_at_8.52.38_PM.jpeg",
+      "/assets/uploads/1784653485522_WhatsApp_Image_2026-07-19_at_8.52.40_PM__1_.jpeg",
+      "/assets/uploads/1784559027245_WhatsApp_Image_2026-07-19_at_8.52.36_PM.jpeg",
+      "/assets/uploads/1784737072231_WhatsApp_Image_2026-07-19_at_8.52.45_PM.jpeg",
+      "/assets/uploads/1784737095634_WhatsApp_Image_2026-07-19_at_8.52.41_PM.jpeg"
+    ]
+  },
+  "navbar": {
+    "ctaText": "Kayıt Ol",
+    "links": [
+      {
+        "text": "Eğitimler",
+        "url": "/#courses"
+      },
+      {
+        "text": "Duyurular",
+        "url": "/#announcements"
+      },
+      {
+        "text": "Neden Biz?",
+        "url": "/#why-arya"
+      },
+      {
+        "text": "Eğitmenler",
+        "url": "/#teachers"
+      },
+      {
+        "text": "İletişim",
+        "url": "/#contact"
+      }
+    ]
+  }
+}

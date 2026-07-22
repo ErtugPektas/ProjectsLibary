@@ -1,0 +1,995 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import duyurular from '../content/duyurular.json';
+import defaultSiteSettings from '../content/site-settings.json';
+import fs from 'fs';
+import path from 'path';
+
+let siteSettings = defaultSiteSettings;
+try {
+  const settingsPath = path.resolve(process.cwd(), 'src/content/site-settings.json');
+  if (fs.existsSync(settingsPath)) {
+    siteSettings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+  }
+} catch (e) {
+  console.error("Failed to read site-settings.json dynamically:", e);
+}
+
+const courses = await getCollection('kurslar');
+
+const cleanPhone = siteSettings.contact.phone.replace(/[^\d+]/g, '');
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MusicSchool",
+  "name": "Arya Sanat Akademisi",
+  "description": siteSettings.seo.description,
+  "url": "https://arya-sanat-akademisi.vercel.app",
+  "logo": "https://arya-sanat-akademisi.vercel.app/assets/favicon.svg",
+  "image": "https://arya-sanat-akademisi.vercel.app/assets/hero_bg.png",
+  "telephone": cleanPhone,
+  "email": siteSettings.contact.email,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": siteSettings.contact.address,
+    "addressLocality": siteSettings.stats.location || "Kocasinan",
+    "addressRegion": "Kayseri",
+    "postalCode": "38020",
+    "addressCountry": "TR"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "opens": "09:00",
+    "closes": "21:00"
+  },
+  "sameAs": [
+    "https://www.instagram.com/aryasanatakademisi",
+    "https://www.facebook.com/aryasanatakademisi"
+  ],
+  "priceRange": "$$",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 38.7337,
+    "longitude": 35.5186
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Müzik Eğitim Programları",
+    "itemListElement": courses.map(course => ({
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Course",
+        "name": `${course.data.title} Kursu`,
+        "description": course.data.description,
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "Arya Sanat Akademisi",
+          "url": "https://arya-sanat-akademisi.vercel.app"
+        }
+      }
+    }))
+  }
+};
+---
+
+<Layout
+  title="Arya Sanat Akademisi — Profesyonel Müzik Eğitimi | Kayseri "
+  description="Kayseri Kocasinan'ın en iyi müzik akademisi. Bateri, Gitar, Piyano, Keman eğitimleri. MEB onaylı sertifika. Ücretsiz deneme dersi!"
+  keywords="müzik kursu kayseri, gitar dersi kocasinan, piyano dersi kayseri, bateri dersi, keman dersi kayseri, müzik okulu kocasinan, Arya Sanat Akademisi, MEB onaylı müzik sertifikası, çocuk müzik kursu"
+  schemaJson={JSON.stringify(schema)}
+>
+  <main id="main-content">
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero" aria-label="Arya Sanat Akademisi Ana Bölümü">
+      <div class="hero-bg" aria-hidden="true">
+        <img
+          src="/assets/hero_bg.png"
+          alt="Profesyonel müzik akademisi — sahne aydınlatması altında kuyruklu piyano"
+          class="hero-img"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-tag">{siteSettings.hero.tag}</p>
+        <h1 class="hero-title">
+          {siteSettings.hero.title}<br />
+          <span class="hero-title-highlight">{siteSettings.hero.titleHighlight}</span>
+        </h1>
+        <p class="hero-desc">
+          {siteSettings.hero.desc}
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary btn-lg" id="heroCta">
+            Ücretsiz Deneme Dersi Al
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#courses" class="btn btn-outline btn-lg" id="heroCoursesBtn">
+            Kursları Keşfet
+          </a>
+        </div>
+        <div class="hero-stats" role="list" aria-label="Akademi İstatistikleri">
+          <div class="hero-stat" role="listitem">
+            <strong>{siteSettings.stats.studentsCount}</strong>
+            <span>Mutlu Öğrenci</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat" role="listitem">
+            <strong>{siteSettings.stats.teachersCount}</strong>
+            <span>Uzman Eğitmen</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat" role="listitem">
+            <strong>{siteSettings.stats.experienceYears}</strong>
+            <span>Yıllık Deneyim</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="#announcements" class="scroll-indicator" aria-label="Aşağı kaydır">
+        <div class="scroll-dot"></div>
+      </a>
+    </section>
+
+    <!-- ===== ANNOUNCEMENTS SECTION ===== -->
+    <section class="section announcements-section" id="announcements" aria-labelledby="announcementsHeading">
+      <div class="container">
+        <header class="section-header text-center-header">
+          <p class="section-tag">Duyuru &amp; Fırsatlar</p>
+          <h2 id="announcementsHeading" class="section-title">Duyurular &amp; Kampanyalar</h2>
+          <p class="section-desc">Akademimizden güncel duyurular, etkinlik haberleri ve avantajlı kayıt dönemleri.</p>
+        </header>
+
+        <div class="announcements-grid">
+          {duyurular.map((duyuru) => (
+            <article class="announcement-card">
+              <div>
+                <div class="announcement-header">
+                  <span class={`announcement-badge ${duyuru.badge === 'Kampanya' ? 'badge-campaign' : 'badge-notice'}`}>
+                    {duyuru.badge}
+                  </span>
+                  <span class="announcement-date">{duyuru.date}</span>
+                </div>
+                <h3 class="announcement-title">{duyuru.title}</h3>
+                <p class="announcement-content">{duyuru.content}</p>
+              </div>
+              <a href="#contact" class="announcement-link">
+                Detaylı Bilgi &amp; İletişim
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COURSES SECTION ===== -->
+    <section class="section courses-section" id="courses" aria-labelledby="coursesHeading">
+      <div class="container">
+        <header class="section-header text-center-header">
+          <p class="section-tag">Eğitim Programlarımız</p>
+          <h2 id="coursesHeading" class="section-title">Eğitimlerimiz</h2>
+          <p class="section-desc">Her seviyeye uygun, uzman eğitmenler eşliğinde kapsamlı müzik eğitimleri.</p>
+        </header>
+
+        <!-- Pill Tab Bar -->
+        <div class="courses-tabs" role="tablist" aria-label="Kurs kategorileri" id="coursesTabs">
+          {courses.map((course, idx) => (
+            <button
+              class={`course-tab-pill ${idx === 0 ? 'active' : ''}`}
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              id={`tab-${course.id}`}
+              data-index={idx}
+            >
+              {course.data.heroTitle}
+            </button>
+          ))}
+        </div>
+
+        <!-- Infinite Loop Courses Carousel Wrapper (RwKwLWK) -->
+        <div class="courses-carousel-wrapper">
+          <button class="courses-nav-btn prev" id="coursesPrevBtn" aria-label="Önceki Kurs">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+
+          <div class="courses-slider-viewport" id="coursesSliderViewport">
+            <div class="courses-slider-track" id="coursesSliderTrack">
+              {courses.map((course, idx) => (
+                <div class="course-card-item" data-index={idx} id={`course-card-${course.id}`}>
+                  <article class="course-card-inner">
+                    <div class="course-card-media">
+                      <img
+                        src={course.data.image}
+                        alt={`${course.data.heroTitle} dersi`}
+                        loading="lazy"
+                        width="360"
+                        height="200"
+                      />
+                      <div class="course-card-badge">{course.data.badge || course.data.heroTitle}</div>
+                    </div>
+                    <div class="course-card-body">
+                      <h3 class="course-card-title">{course.data.heroTitle}</h3>
+                      <p class="course-card-desc">{course.data.description}</p>
+                      <div class="course-card-meta-tags">
+                        <span class="meta-tag">⏱️ {course.data.duration}</span>
+                        <span class="meta-tag">📅 {course.data.frequency}</span>
+                        <span class="meta-tag">🎓 {course.data.certificate}</span>
+                      </div>
+                      <div class="course-card-actions">
+                        <a href={`/kurslar/${course.id}`} class="btn btn-primary" id={`${course.id}Btn`}>
+                          Detaylı İncele
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
+                        <a href="#contact" class="btn btn-outline">Ücretsiz Deneme</a>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button class="courses-nav-btn next" id="coursesNextBtn" aria-label="Sonraki Kurs">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHY ARYA SECTION ===== -->
+
+    <section class="section why-section" id="why-arya" aria-labelledby="whyHeading">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-tag">{siteSettings.whyUs ? siteSettings.whyUs.tag : "Fark Yaratan Eğitim"}</p>
+          <h2 id="whyHeading" class="section-title">{siteSettings.whyUs ? siteSettings.whyUs.title : "Neden Arya Sanat?"}</h2>
+          <p class="section-desc">
+            {siteSettings.whyUs ? siteSettings.whyUs.desc : "On yılı aşkın deneyimimiz ve yüzlerce mezun öğrencimizle müzik eğitiminde standartları yeniden belirliyoruz."}
+          </p>
+        </header>
+
+        <div class="features-grid" role="list">
+          {siteSettings.whyUs && siteSettings.whyUs.features ? (
+            siteSettings.whyUs.features.filter(feat => feat.title || feat.desc).map((feat, index) => (
+              <article 
+                class={`feature-card ${index === 1 ? 'feature-card--accent' : ''} ${(feat.image || feat.videoPreview) ? 'has-media' : ''}`} 
+                role="listitem" 
+                id={feat.id || `feature-${index}`} 
+                style="position: relative; overflow: hidden;"
+              >
+                {/* Background Image / Hover Image */}
+                {feat.image && (
+                  <img src={feat.image} alt={feat.title} class="card-image-hover" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 0;" />
+                )}
+                
+                {/* Background Hover Video */}
+                {feat.videoPreview && (
+                  <video 
+                    src={feat.videoPreview} 
+                    loop 
+                    muted 
+                    playsinline 
+                    class="card-video-preview" 
+                    style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 0;"
+                  ></video>
+                )}
+
+                <div class="feature-card-content" style="position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column;">
+                  <div class="feature-icon-wrapper" aria-hidden="true">
+                    {index === 0 && (
+                      <svg class="feature-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+                        <path d="M6 18.8v-4L2 13"/>
+                        <path d="M12 22a7 7 0 0 0 7-7v-3.5"/>
+                      </svg>
+                    )}
+                    {index === 1 && (
+                      <svg class="feature-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="22"/>
+                      </svg>
+                    )}
+                    {index === 2 && (
+                      <svg class="feature-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <line x1="10" y1="9" x2="8" y2="9"/>
+                      </svg>
+                    )}
+                    {index > 2 && (
+                      <svg class="feature-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="m9 12 2 2 4-4"/>
+                      </svg>
+                    )}
+                  </div>
+                  
+                  <h3 class="feature-title">{feat.title}</h3>
+                  <p class="feature-desc">{feat.desc}</p>
+                  
+                  {feat.items && (
+                    <ul class="feature-list" aria-label={`${feat.title} özellikleri`}>
+                      {feat.items.split(',').map(item => item.trim()).filter(Boolean).map(item => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </article>
+            ))
+          ) : null}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GALLERY SECTION ===== -->
+    <section class="section gallery-section" id="portfolio" aria-labelledby="galleryHeading">
+      <div class="container">
+        <header class="section-header text-center-header">
+          <p class="section-tag">Sanat Atölyelerimiz</p>
+          <h2 id="galleryHeading" class="section-title">{siteSettings.gallery ? siteSettings.gallery.title : "Akademimizden Kareler"}</h2>
+          <p class="section-desc">
+            {siteSettings.gallery ? siteSettings.gallery.desc : "Atölyelerimiz, bireysel dersliklerimiz ve sanatsal etkinliklerimizden en özel anlar."}
+          </p>
+        </header>
+      </div>
+
+      <div class="container-fluid" style="position: relative;">
+        <button class="gallery-nav-btn prev" id="galleryPrevBtn" aria-label="Önceki Fotoğraflar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <div class="horiz-gallery-wrapper">
+          <div class="horiz-gallery-strip" id="galleryTrack">
+            {siteSettings.gallery && siteSettings.gallery.images && siteSettings.gallery.images.length > 0 ? (
+              siteSettings.gallery.images.map((img, idx) => (
+                <div class="project-wrap" role="listitem" tabindex="0">
+                  <div class="gallery-card-inner">
+                    <img src={img} alt={`Arya Sanat Galeri Görseli ${idx + 1}`} loading="lazy" />
+                    <div class="gallery-overlay">
+                      <span class="zoom-icon">🔎</span>
+                      <span class="gallery-caption">Büyütmek İçin Tıklayın</span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div style="text-align: center; padding: 3rem; background: #161622; border-radius: 12px; border: 1px dashed #2d2d3d; min-width: 300px;">
+                <p style="color: #b4b4c6;">Henüz galeri görseli eklenmemiş. Panelden görsel yükleyebilirsiniz! 📸</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <button class="gallery-nav-btn next" id="galleryNextBtn" aria-label="Sonraki Fotoğraflar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section class="section contact-section" id="contact" aria-labelledby="contactHeading">
+      <div class="container">
+        <div class="contact-grid">
+
+          <div class="contact-info">
+            <p class="section-tag">Bize Ulaşın</p>
+            <h2 id="contactHeading" class="section-title contact-title">İletişim &amp; Kayıt</h2>
+            <p class="contact-desc">
+              Ücretsiz deneme dersimiz için formu doldurun veya doğrudan bizimle iletişime geçin.
+              Sizi müzik yolculuğunuzda karşılamak için sabırsızlanıyoruz.
+            </p>
+
+            <address class="contact-details" aria-label="Akademi iletişim bilgileri">
+              <div class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Adres</strong>
+                  <p>{siteSettings.contact.address}</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Telefon</strong>
+                  <p><a href={`tel:${siteSettings.contact.phone.replace(/[^\d+]/g, '')}`}>{siteSettings.contact.phone}</a></p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>E-Posta</strong>
+                  <p><a href={`mailto:${siteSettings.contact.email}`}>{siteSettings.contact.email}</a></p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Çalışma Saatleri</strong>
+                  <p>{siteSettings.contact.workingHours}</p>
+                </div>
+              </div>
+            </address>
+
+            <!-- Social Media -->
+            <div class="social-links" aria-label="Sosyal medya bağlantıları">
+              <a href="https://www.instagram.com/aryasanatakademisi" class="social-link" id="instagramLink" aria-label="Instagram hesabımızı takip edin">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                Instagram
+              </a>
+              <a href="#" class="social-link" id="facebookLink" aria-label="Facebook sayfamızı beğenin">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                Facebook
+              </a>
+              <a href="#" class="social-link" id="youtubeLink" aria-label="YouTube kanalımıza abone olun">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"></path><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon></svg>
+                YouTube
+              </a>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="contact-form-wrapper">
+            <form class="contact-form" id="contactForm" novalidate aria-label="Kayıt ve iletişim formu">
+              <h3 class="form-title">Ücretsiz Deneme Dersi</h3>
+              <p class="form-subtitle">Formu doldurun, size 24 saat içinde ulaşalım.</p>
+
+              <div class="form-group">
+                <label for="fullName" class="form-label">Ad Soyad</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  class="form-input"
+                  placeholder="Ad Soyadınız"
+                  required
+                  autocomplete="name"
+                  aria-required="true"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone" class="form-label">Telefon</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="form-input"
+                  placeholder="05XX XXX XX XX"
+                  required
+                  autocomplete="tel"
+                  aria-required="true"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">E-Posta</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  placeholder="ornek@email.com"
+                  autocomplete="email"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="instrument" class="form-label">İlgilendiğiniz Enstrüman</label>
+                <select id="instrument" name="instrument" class="form-input form-select" required aria-required="true">
+                  <option value="" disabled selected>Enstrüman Seçiniz</option>
+                  <option value="bateri">Bateri</option>
+                  <option value="gitar">Gitar</option>
+                  <option value="piyano">Piyano</option>
+                  <option value="keman">Keman</option>
+                  <option value="flut">Yan Flüt</option>
+                  <option value="klarnet">Klarnet</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Mesajınız (İsteğe Bağlı)</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  class="form-input form-textarea"
+                  placeholder="Müzik geçmişiniz, hedefleriniz veya sorularınız..."
+                  rows="4"
+                  aria-multiline="true"
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                Ücretsiz Ders Talep Et
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+
+              <div class="form-success" id="formSuccess" role="alert" aria-live="polite" hidden>
+                <span aria-hidden="true">✅</span> Talebiniz alındı! En kısa sürede sizinle iletişime geçeceğiz.
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const interactiveCards = document.querySelectorAll('.course-card, .teacher-card, .feature-card');
+      let activePopup = null;
+      let activeCard = null;
+      let activeVideo = null;
+      
+      interactiveCards.forEach(card => {
+        const video = card.querySelector('.card-video-preview');
+        const imgHover = card.querySelector('.card-image-hover');
+        if (!video && !imgHover) return;
+        
+        let hoverTimeout = null;
+
+        const showPreview = () => {
+          card.classList.add('touch-active');
+          if (video) {
+            video.play().catch(err => {
+              console.log('Autoplay check:', err);
+            });
+          }
+        };
+        
+        const hidePreview = () => {
+          if (activeCard === card) return;
+          
+          card.classList.remove('touch-active');
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
+        };
+
+        card.addEventListener('mouseenter', () => {
+          showPreview();
+          if (video) {
+            hoverTimeout = setTimeout(() => {
+              showControlsPopup(card, video);
+            }, 850);
+          }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          if (hoverTimeout) clearTimeout(hoverTimeout);
+          hidePreview();
+        });
+
+        card.addEventListener('touchstart', () => {
+          showPreview();
+          if (video) {
+            hoverTimeout = setTimeout(() => {
+              showControlsPopup(card, video);
+            }, 850);
+          }
+        }, { passive: true });
+        
+        card.addEventListener('touchend', () => {
+          if (hoverTimeout) clearTimeout(hoverTimeout);
+          hidePreview();
+        }, { passive: true });
+
+        card.addEventListener('touchcancel', () => {
+          if (hoverTimeout) clearTimeout(hoverTimeout);
+          hidePreview();
+        }, { passive: true });
+      });
+
+      function showControlsPopup(card, video) {
+        if (activePopup) {
+          if (activeCard !== card) {
+            closeActivePopup();
+          } else {
+            return;
+          }
+        }
+
+        activeCard = card;
+        activeVideo = video;
+
+        const popup = document.createElement('div');
+        popup.className = 'video-control-popup';
+        
+        popup.innerHTML = `
+          <button class="popup-ctrl-btn btn-play-pause" title="Oynat / Durdur">
+            <svg class="icon-play" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:${video.paused ? 'block' : 'none'};"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg class="icon-pause" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:${video.paused ? 'none' : 'block'};"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="popup-ctrl-btn btn-mute" title="Sesi Aç / Kapat">
+            <svg class="icon-unmute" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:${video.muted ? 'none' : 'block'};"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <svg class="icon-mute" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:${video.muted ? 'block' : 'none'};"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+          </button>
+          <button class="popup-ctrl-btn btn-fullscreen" title="Tam Ekran">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          </button>
+        `;
+
+        card.appendChild(popup);
+        
+        setTimeout(() => popup.classList.add('visible'), 10);
+        activePopup = popup;
+
+        const btnPlayPause = popup.querySelector('.btn-play-pause');
+        const iconPlay = popup.querySelector('.icon-play');
+        const iconPause = popup.querySelector('.icon-pause');
+        btnPlayPause.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (video.paused) {
+            video.play();
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+          } else {
+            video.pause();
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+          }
+        });
+
+        const btnMute = popup.querySelector('.btn-mute');
+        const iconUnmute = popup.querySelector('.icon-unmute');
+        const iconMute = popup.querySelector('.icon-mute');
+        btnMute.addEventListener('click', (e) => {
+          e.stopPropagation();
+          video.muted = !video.muted;
+          if (video.muted) {
+            iconUnmute.style.display = 'none';
+            iconMute.style.display = 'block';
+          } else {
+            iconUnmute.style.display = 'block';
+            iconMute.style.display = 'none';
+          }
+        });
+
+        const btnFullscreen = popup.querySelector('.btn-fullscreen');
+        btnFullscreen.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (video.requestFullscreen) {
+            video.requestFullscreen();
+          } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+          } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen();
+          }
+        });
+
+        document.addEventListener('click', handleOutsideClick);
+      }
+
+      function closeActivePopup() {
+        if (!activePopup) return;
+        
+        const popup = activePopup;
+        const video = activeVideo;
+        const card = activeCard;
+
+        popup.classList.remove('visible');
+        
+        activePopup = null;
+        activeCard = null;
+        activeVideo = null;
+
+        setTimeout(() => {
+          popup.remove();
+          if (card && !card.matches(':hover')) {
+            card.classList.remove('touch-active');
+            if (video) {
+              video.pause();
+              video.currentTime = 0;
+            }
+          }
+        }, 300);
+
+        document.removeEventListener('click', handleOutsideClick);
+      }
+
+      function handleOutsideClick(e) {
+        if (activePopup && !activePopup.contains(e.target) && !activeCard.contains(e.target)) {
+          closeActivePopup();
+        }
+      }
+
+      // Lightbox logic
+      const galleryItems = document.querySelectorAll('.gallery-panel-item, .gallery-item');
+      galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const img = item.querySelector('img');
+          if (!img) return;
+          const imgUrl = img.src;
+          const modal = document.createElement('div');
+          modal.className = 'lightbox-modal';
+          modal.innerHTML = `
+            <div class="lightbox-content">
+              <img src="${imgUrl}" alt="Galeri Büyütülmüş Görsel" />
+              <button class="lightbox-close" aria-label="Kapat">&times;</button>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          setTimeout(() => modal.classList.add('open'), 10);
+          
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal || e.target.classList.contains('lightbox-close')) {
+              modal.classList.remove('open');
+              setTimeout(() => modal.remove(), 300);
+            }
+          });
+        });
+      });
+
+      /* GSAP Horizontal Loop Helper Function (exact GreenSock RwKwLWK CodePen algorithm) */
+      function horizontalLoop(items, config) {
+        items = gsap.utils.toArray(items);
+        config = config || {};
+        let onChange = config.onChange,
+            lastIndex = 0,
+            tl = gsap.timeline({
+              repeat: config.repeat,
+              paused: config.paused,
+              defaults: { ease: "none" },
+              onUpdate: onChange && function() {
+                let i = tl.current();
+                if (i !== lastIndex) {
+                  lastIndex = i;
+                  onChange(items[i], i);
+                }
+              }
+            }),
+            length = items.length,
+            startX = items[0].offsetLeft,
+            times = [],
+            widths = [],
+            xPercents = [],
+            curIndex = 0,
+            pixelsPerSecond = (config.speed || 1) * 100,
+            snap = config.snap === false ? v => v : (typeof(config.snap) === "function" ? config.snap : gsap.utils.snap(config.snap || 1)),
+            totalWidth, curX, distanceToStart, distanceToLoop, item, i;
+        
+        gsap.set(items, {
+          xPercent: (i, el) => {
+            let w = widths[i] = parseFloat(gsap.getProperty(el, "width", "px"));
+            xPercents[i] = snap(parseFloat(gsap.getProperty(el, "x", "px")) / w * 100 + gsap.getProperty(el, "xPercent"));
+            return xPercents[i];
+          }
+        });
+        gsap.set(items, { x: 0 });
+        totalWidth = items[length - 1].offsetLeft + xPercents[length - 1] / 100 * widths[length - 1] - startX + items[length - 1].offsetWidth * gsap.getProperty(items[length - 1], "scaleX") + (parseFloat(config.paddingRight) || 0);
+        for (i = 0; i < length; i++) {
+          item = items[i];
+          curX = xPercents[i] / 100 * widths[i];
+          distanceToStart = item.offsetLeft - startX;
+          distanceToLoop = distanceToStart + widths[i] * gsap.getProperty(item, "scaleX");
+          tl.to(item, { xPercent: snap((curX - distanceToLoop) / widths[i] * 100), duration: distanceToLoop / pixelsPerSecond }, 0)
+            .fromTo(item, { xPercent: snap((curX - distanceToLoop + totalWidth) / widths[i] * 100) }, { xPercent: xPercents[i], duration: (totalWidth - distanceToLoop) / pixelsPerSecond, immediateRender: false }, distanceToLoop / pixelsPerSecond)
+            .add("label" + i, distanceToStart / pixelsPerSecond);
+          times[i] = distanceToStart / pixelsPerSecond;
+        }
+        function toIndex(idx, vars) {
+          vars = vars || {};
+          (Math.abs(idx - curIndex) > length / 2) && (idx += idx > curIndex ? -length : length);
+          let newIndex = gsap.utils.wrap(0, length, idx),
+              time = times[newIndex];
+          if (time > tl.time() !== idx > curIndex) {
+            vars.modifiers = { time: gsap.utils.wrap(0, tl.duration()) };
+            time += tl.duration() * (idx > curIndex ? 1 : -1);
+          }
+          curIndex = newIndex;
+          vars.overwrite = true;
+          return tl.tweenTo(time, vars);
+        }
+        tl.next = vars => toIndex(curIndex + 1, vars);
+        tl.previous = vars => toIndex(curIndex - 1, vars);
+        tl.current = () => curIndex;
+        tl.toIndex = (index, vars) => toIndex(index, vars);
+        tl.times = times;
+        tl.progress(1, true).progress(0, true);
+        if (config.reversed) {
+          tl.vars.onReverseComplete();
+          tl.reverse();
+        }
+        if (config.draggable && typeof Draggable !== "undefined") {
+          let proxy = document.createElement("div"),
+              wrap = gsap.utils.wrap(0, 1),
+              ratio, startProgress, draggable,
+              align = () => tl.progress(wrap(startProgress + (draggable.startX - draggable.x) * ratio));
+          draggable = Draggable.create(proxy, {
+            trigger: items[0].parentNode,
+            type: "x",
+            onPress() {
+              startProgress = tl.progress();
+              tl.pause();
+              ratio = 1 / totalWidth;
+            },
+            onDrag: align,
+            onThrowUpdate: align,
+            inertia: true,
+            snap: value => {
+              let time = -(value * ratio) * tl.duration(),
+                  wrappedTime = gsap.utils.wrap(0, tl.duration(), time),
+                  snapTime = times[gsap.utils.snap(times, wrappedTime)],
+                  diff = snapTime - wrappedTime;
+              if (Math.abs(diff) > tl.duration() / 2) {
+                diff += diff < 0 ? tl.duration() : -tl.duration();
+              }
+              return (time + diff) / tl.duration() / -ratio;
+            },
+            onRelease() {
+              tl.play();
+            }
+          })[0];
+        }
+        return tl;
+      }
+
+      // Initialize Courses Infinite Horizontal Loop Slider
+      function initCoursesSlider() {
+        if (typeof gsap === 'undefined') return;
+        const courseCards = gsap.utils.toArray('.course-card-item');
+        if (courseCards.length === 0) return;
+        
+        const tabs = document.querySelectorAll('.course-tab-pill');
+        
+        const loop = horizontalLoop(courseCards, {
+          paused: false,
+          repeat: -1,
+          speed: 0.65,
+          paddingRight: 24,
+          draggable: true,
+          onChange: (element, index) => {
+            tabs.forEach((tab, i) => {
+              if (i === index) {
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+              } else {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+              }
+            });
+          }
+        });
+
+        // Pause on hover over viewport
+        const viewport = document.getElementById('coursesSliderViewport');
+        if (viewport) {
+          viewport.addEventListener('mouseenter', () => loop.pause());
+          viewport.addEventListener('mouseleave', () => loop.play());
+        }
+
+        // Next / Prev buttons
+        const nextBtn = document.getElementById('coursesNextBtn');
+        const prevBtn = document.getElementById('coursesPrevBtn');
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            loop.next({ duration: 0.6, ease: "power2.inOut" });
+          });
+        }
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            loop.previous({ duration: 0.6, ease: "power2.inOut" });
+          });
+        }
+
+        // Tab Pill Clicks -> Smooth jump to card index
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('click', () => {
+            loop.toIndex(index, { duration: 0.8, ease: "power2.inOut" });
+          });
+        });
+      }
+
+      if (document.readyState === 'complete') {
+        initCoursesSlider();
+      } else {
+        window.addEventListener('load', initCoursesSlider);
+      }
+
+      // Horizontal Scroll Gallery (CodePen GSAP Pinning)
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const portfolioSec = document.getElementById("portfolio");
+        if (portfolioSec) {
+          const horizontalSections = gsap.utils.toArray(".horiz-gallery-wrapper");
+
+          horizontalSections.forEach(function (sec) {
+            const pinWrap = sec.querySelector(".horiz-gallery-strip");
+            if (!pinWrap) return;
+
+            let pinWrapWidth;
+            let horizontalScrollLength;
+
+            function refresh() {
+              pinWrapWidth = pinWrap.scrollWidth;
+              horizontalScrollLength = Math.max(0, pinWrapWidth - window.innerWidth + 100);
+            }
+
+            refresh();
+
+            const anim = gsap.to(pinWrap, {
+              x: () => -horizontalScrollLength,
+              ease: "none",
+              scrollTrigger: {
+                trigger: portfolioSec,
+                pin: portfolioSec,
+                scrub: true,
+                start: "center center",
+                end: () => `+=${pinWrapWidth}`,
+                invalidateOnRefresh: true,
+                anticipatePin: 1
+              }
+            });
+
+            ScrollTrigger.addEventListener("refreshInit", refresh);
+
+            // Left / Right Navigation Arrow Buttons
+            const prevBtn = document.getElementById('galleryPrevBtn');
+            const nextBtn = document.getElementById('galleryNextBtn');
+
+            if (prevBtn) {
+              prevBtn.addEventListener('click', () => {
+                const st = anim.scrollTrigger;
+                if (st) {
+                  const targetScroll = Math.max(st.start, st.scroll() - 400);
+                  window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+                }
+              });
+            }
+
+            if (nextBtn) {
+              nextBtn.addEventListener('click', () => {
+                const st = anim.scrollTrigger;
+                if (st) {
+                  const targetScroll = Math.min(st.end, st.scroll() + 400);
+                  window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  </script>
+</Layout>

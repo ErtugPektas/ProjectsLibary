@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>112 Ortam Kontrol Monitörü</title>
+    <!-- Google Fonts - Inter & Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Alarm Overlay Flasher -->
+    <div id="alarm-overlay" class="alarm-overlay hidden">
+        <div class="alarm-banner">
+            <span class="material-icons-round alert-icon">warning</span>
+            <h1>SAYFADA DEĞİŞİKLİK ALGILANDI!</h1>
+            <p>Ekranda değişiklik tespit edildiği için sesli alarm çalıyor.</p>
+            <button id="silence-alarm-btn" class="btn btn-danger btn-large">
+                <span class="material-icons-round">volume_off</span> ALARMI SUSTUR
+            </button>
+        </div>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="logo-area">
+                <div class="pulse-indicator status-green" id="header-pulse"></div>
+                <h1>112 Ortam Kontrol <span>Monitörü</span></h1>
+            </div>
+            <div class="server-status">
+                <span class="status-label">SUNUCU BAĞLANTISI:</span>
+                <span class="status-value connected" id="server-connection">BAĞLI</span>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="dashboard-content">
+            <!-- Status Panel -->
+            <section class="status-panel">
+                <!-- Card 1: Monitoring State -->
+                <div class="card glass-card card-status">
+                    <div class="card-header">
+                        <span class="material-icons-round text-cyan">visibility</span>
+                        <h3>İzleme Durumu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="status-display" id="monitor-state-text">AKTİF</div>
+                        <div class="status-sub" id="monitor-interval-text">Sorgulama Aralığı: 10sn</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Screen Condition -->
+                <div class="card glass-card card-status" id="condition-card">
+                    <div class="card-header">
+                        <span class="material-icons-round text-green" id="condition-icon">check_circle</span>
+                        <h3>Ekran Durumu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="status-display text-green" id="condition-text">BAŞLATILIYOR</div>
+                        <div class="status-sub" id="last-checked-text">Son Kontrol: --:--:--</div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Quick Controls -->
+                <div class="card glass-card card-controls">
+                    <div class="card-header">
+                        <span class="material-icons-round text-purple">settings</span>
+                        <h3>Hızlı Kontroller</h3>
+                    </div>
+                    <div class="card-body controls-grid">
+                        <button id="toggle-monitor-btn" class="btn btn-primary">
+                            <span class="material-icons-round">play_arrow</span> Başlat
+                        </button>
+                        <button id="toggle-mute-btn" class="btn btn-secondary">
+                            <span class="material-icons-round">volume_up</span> Sesi Kapat
+                        </button>
+                        <button id="test-sound-btn" class="btn btn-secondary">
+                            <span class="material-icons-round">volume_down_alt</span> Sesi Test Et
+                        </button>
+                        <button id="reset-baseline-btn" class="btn btn-warning">
+                            <span class="material-icons-round">refresh</span> Referansı Sıfırla
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Config & Detail Panel -->
+            <section class="details-section">
+                <!-- Settings Card -->
+                <div class="card glass-card settings-card">
+                    <div class="card-header">
+                        <span class="material-icons-round text-blue">tune</span>
+                        <h3>Monitör Ayarları</h3>
+                    </div>
+                    <div class="card-body settings-form">
+                        <div class="setting-item">
+                            <label for="interval-slider">Sorgulama Hızı: <span id="interval-val">10</span> saniye</label>
+                            <input type="range" id="interval-slider" min="2" max="60" value="10" step="1">
+                        </div>
+                        <div class="target-url-info">
+                            <span class="material-icons-round">link</span>
+                            <div>
+                                <strong>Takip Edilen Adres:</strong>
+                                <a href="https://ista-wld.ng112.gov.tr/NG112UC/environmentCheck.html" target="_blank" id="target-url-link">
+                                    https://ista-wld.ng112.gov.tr/NG112UC/environmentCheck.html
+                                </a>
+                            </div>
+                        </div>
+                        <div class="setting-item full-width">
+                            <label for="target-url-input">İzlenecek Canlı Adres (URL)</label>
+                            <input type="text" id="target-url-input" placeholder="https://ista-wld.ng112.gov.tr/NG112UC/environmentCheck.html">
+                        </div>
+                        <div class="setting-item full-width">
+                            <label for="cookie-input">Oturum Çerezi (Cookie / JSESSIONID)</label>
+                            <input type="text" id="cookie-input" placeholder="JSESSIONID=mTKpHiVl4NZG2sIih... veya Cookie başlığının tamamı">
+                            <span class="input-tip">Tarayıcıda F12 basıp Application -> Cookies -> https://ista-wld.ng112.gov.tr altından JSESSIONID değerini yapıştırın.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dual Columns: Logs and Visual Diff -->
+            <section class="split-view">
+                <!-- Logs Column -->
+                <div class="card glass-card log-card">
+                    <div class="card-header">
+                        <span class="material-icons-round text-orange">list_alt</span>
+                        <h3>Sistem Günlükleri (Logs)</h3>
+                    </div>
+                    <div class="card-body log-container" id="log-list">
+                        <div class="log-placeholder">Günlük verileri bekleniyor...</div>
+                    </div>
+                </div>
+
+                <!-- Diff Column -->
+                <div class="card glass-card diff-card">
+                    <div class="card-header">
+                        <span class="material-icons-round text-red">difference</span>
+                        <h3>Değişiklik Detayları (Visual Diff)</h3>
+                        <button id="refresh-diff-btn" class="btn-icon" title="Detayları Yenile">
+                            <span class="material-icons-round">sync</span>
+                        </button>
+                    </div>
+                    <div class="card-body diff-container" id="diff-content">
+                        <div class="diff-placeholder">
+                            <span class="material-icons-round">done_all</span>
+                            <p>Sayfa şu an referans şablonuyla (baseline) birebir aynı.</p>
+                            <span class="sub-placeholder">Herhangi bir değişiklik veya hata olduğunda, HTML karşılaştırması satır bazlı olarak burada listelenecektir.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>112 Ortam Kontrol Monitör Servisi &copy; 2026 - Siteden bağımsız ekran değişiklik alarm sistemi</p>
+        </footer>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

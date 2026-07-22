@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="j_idt2"><link type="text/css" rel="stylesheet" href="/NG112UC/javax.faces.resource/theme.css.html?ln=primefaces-bootstrap" /><link type="text/css" rel="stylesheet" href="/NG112UC/javax.faces.resource/components.css.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956?ln=primefaces&amp;v=6.2" /><script type="text/javascript" src="/NG112UC/javax.faces.resource/jquery/jquery.js.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956?ln=primefaces&amp;v=6.2"></script><script type="text/javascript" src="/NG112UC/javax.faces.resource/jquery/jquery-plugins.js.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956?ln=primefaces&amp;v=6.2"></script><script type="text/javascript" src="/NG112UC/javax.faces.resource/core.js.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956?ln=primefaces&amp;v=6.2"></script><script type="text/javascript" src="/NG112UC/javax.faces.resource/components.js.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956?ln=primefaces&amp;v=6.2"></script><script type="text/javascript">if(window.PrimeFaces){PrimeFaces.settings.locale='en_US';}</script>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, private" />
+                <meta http-equiv="Pragma" content="no-cache" />
+                <meta http-equiv="Expires" content="0" />
+            <title>
+                112 Ortam Kontrol
+            </title>
+
+            <script type="text/javascript">
+                function validateNumber(evt) {
+                    var theEvent = evt || window.event;
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                    var regex = /[0-9]/i;
+                    if (!regex.test(key)) {
+                        theEvent.returnValue = false;
+                        if (theEvent.preventDefault)
+                            theEvent.preventDefault();
+                    }
+                }
+
+                function submitWithEnter(event) {
+                    if (event.keyCode === 13) {
+                        document.getElementById('checkBtn').click();
+                        return false;
+                    }
+                }
+
+                function refreshCaptcha() {
+                    document.getElementById('imgCaptchaId').src = 'captcha.png?' + Math.random();
+                    document.getElementById('cptc').value = '';
+                    return false;
+                }
+            </script>
+
+            <!--Google Icons-->
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+            <!--Materialize Css-->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+            <style>
+                .ui-growl {
+                    position: absolute;
+                    top: 20px;
+                    left: 40%;
+                    font-size: 12px;
+                }
+                .environment-check {
+                    /*margin-top: 15%;*/
+                }
+
+                .environment-check .card {
+                    background-color: #f5f5f5;
+                }
+
+                .environment-check .btn-floating {
+                    color: #2bbbad;
+                }
+
+                .environment-check .card .checkLabel {
+                    font-size: 1vw;
+                    text-align: center;
+                    font-weight: bold;
+                }
+
+                .info-text {
+                    font-size: 0.85em;
+                    color: #666;
+                    text-align: center;
+                    margin-bottom: 15px;
+                }
+            </style></head><body class="grey lighten-5">
+            <div class="valign-wrapper" id="environment-check-page">
+                <div class="container">
+                    <div class="center-align">
+                        <div class="row environment-check">
+                            <div class="col s6 offset-s3">
+                                <div class="card">
+                                    <p style="font: bold; color: red;" id="browserMessage"></p>
+                                    <div id="card-content" class="card-content">
+                                        <img class="responsive-img" style="max-width: 200px;" src="images/client_icon_64.png" alt="" />
+                                        <div class="checkLabel">112 Acil Çağrı Merkezi Uç Birim Uygulaması</div>
+                                        <div class="info-text">
+                                            Kullanıcı Adınızı, telefon numaranızın son 4 hanesini ve şifrenizi giriniz.
+                                        </div>
+                                        <div>
+<form id="environmentCheckForm" name="environmentCheckForm" method="post" action="/NG112UC/environmentCheck.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956" enctype="application/x-www-form-urlencoded" onkeypress="submitWithEnter(event);">
+<input type="hidden" name="environmentCheckForm" value="environmentCheckForm" />
+
+                                                <div class="row">
+                                                    <div class="col s12 input-field"></div>
+                                                    <div class="col s12 input-field"><input id="identityNumber" type="text" name="identityNumber" maxlength="11" /><label for="identityNumber">Kullanıcı Adınızı Giriniz</label>
+                                                    </div>
+                                                    <div class="col s12 input-field"><input id="phoneLastFourDigits" type="text" name="phoneLastFourDigits" maxlength="4" onkeypress="validateNumber(event)" /><label for="phoneLastFourDigits">Telefon Numaranızın Son 4 Hanesini Giriniz</label>
+                                                    </div>
+                                                    <div class="col s12 input-field"><input id="password" type="password" name="password" value="" /><label for="password">Şifrenizi Giriniz</label>
+                                                    </div>
+                                                    <div class="col s5"><img id="imgCaptchaId" src="captcha.png;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956" alt="" style="max-width:100%;height:auto;" />
+                                                    </div>
+                                                    <div class="col s5"><input id="cptc" type="text" name="cptc" />
+                                                    </div>
+                                                    <div class="col s2">
+                                                        <a class="btn-floating waves-effect waves-light" onclick="refreshCaptcha();"><i class="material-icons">refresh</i></a>
+                                                    </div>
+                                                    <div class="col s12 input-field right-align"><script type="text/javascript" src="/NG112UC/javax.faces.resource/jsf.js.html;jsessionid=gOapKXnAolzsNLwOp3jwnLpowyBU5ZDMlPQBat0fWDiwohcjXExr!1193826956?ln=javax.faces"></script><a id="checkBtn" href="#" onclick="mojarra.jsfcljs(document.getElementById('environmentCheckForm'),{'checkBtn':'checkBtn'},'');return false" class="btn btn-large waves-effect waves-light">Giriş Yap</a>
+                                                    </div>
+                                                    <div class="col s12 input-field right-align">
+                                                        v 2.1.6
+                                                    </div>
+                                                </div><input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="ERfEOAS5l060FcrbykufToBA40pR6MCmP8xhaVKT2KCNHC40ng6k3oN8hRqq/ew3MX4Gc/Lv5L0Q2qmH8xFABsopWjKhx6avpC6GWnNsIBheaKOoIFvCBWl36tDK0y8EIvIgPn23PbB1N2Hc68WpM8jjHqF8XwGKabT/uDNEi1bMcZC68CkTbLx0Bii88GS3opT42FYqUyalBS0DEKkYFaHhYaR7wpakCF9GHLl8rXK5yiCZAcXIDz4ObHT9r/DmtuUznv7+6TIpD633RBYCXANoTGzu7rS/uSrW0WOf71HIx9OLhudl671LSBJVNGeMSYbpuKHf2Q9ErZVzLvEuPkNsVvxt4IrJw7ZWShBMj/LOn2NkdmLJoLJ2r6fxM0FYNMyNn5eRW+B8fOMN2HE1SpiqJGW6z7ZQ3M+Hm6u55ITEvvsLLhpDB5R+kPhNaowQrPYCaV2lYW8D/8tzNesuCfgiOrMaxVj0FPIhE9++TMv7xM7xiCJAMC1vClxLOKwnEBc99+SSgmavDFPxuFBrtIuKwSvaxOkPATWFzHeZTtEEWEkRZNBLw1SN3Q+u1L97Wti94F92MrJtaAvFlHeYiSU7i5bCqd7C0IItCB1X8xnU2rYaS2TPKyVNe4E0nv41y5LI9iL0OBdzgAiETFQooOYMkE5KNKx2FIpjRtMM5D2hO5UncJDIdr6c0lDKkfhxApqLc6gEodTi2DXnHgUZ3omgwW/oihThFxFFMIiyWoXWHTNfgwJTyAdXMmGHeQ/HMzuo4dow9t44abxCbNHdXEUttao/8lFPukcp7QFfR4UIKeqSj3TC0pzWuEHhpQWy3AQmBUcZ/vQxsnJCvuXYy9yjAF2Yfe2WkaxFxu7XgXcOzdNJAJ86c7osFSAs4P6B8lLobwYPZA6l5+uMizkq21aEOtFDnnrioA8uF0I+TEuqRvtDkFB8E5L/5tpQWQfVguyI+hcppbyfxJN4rSJ9JIHHLmpQfyDbwJjDD5wP+rGHXXcvjFgpZbCAk6D4dh97q18HbJpEpR7pbTd5VW9zyOJeQhE3jOErBgdg/cbsFcPmU7cqcVguu8m4iEq8crGkJBMUtKJmubIC9mkqegO6cCU402HBja+Wg++o59FE54PWaA7LS7UnZpwuldGK8qsThkAAw/Gh70sNfayO52M7irbTkSv/0lulV3E7pRuMU/ZiZWTogkpBKmwoRLCHtDU2MDvjweIldJ49ch1pXZvDSAfi1sCWdJ3T7u9dBBmzE1AXvqbHf2dWmppU6LTarb6KuXGDyBjKAFFb4TtOwz2GU6qoebRMLA9cMCCDefPsCMiRf7e3aONiBlS5YwYG+dO5DWNsOB8yiHVJPaBsvU0pBnDZKRRP5/A0O9G5VJ66Bg1+I3msGSz0GXU67qEp4AE30g+mQcAxFlHJrOT+zJjS6WB7kDwwwIgaDr+jp9B7+Jodzue5V5QnsqwJVAXMRvH2ZN3Pw1bo6hsKjosT3dsxQdiWSwmnh9dmoEOC5dDYY5hux9qeMeuyiDj1jTOCTRtlaz5veEc9wdes0oUsAtlL3KmmeMQpMQ87CCl6ATHN+IsdgPD2c9euU+1+9HkcqaLw" autocomplete="off" />
+<input type="hidden" name="as_fid" value="55d8a280a2428f45a0308e5a18822bbdb9c7e026" /></form><span id="messageTriger"></span><script id="messageTriger_s" type="text/javascript">$(function(){PrimeFaces.cw("Growl","messageTriger",{id:"messageTriger",sticky:false,life:6000,escape:true,keepAlive:false,msgs:[]});});</script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                (function () {
+                    document.getElementById("environment-check-page").style.height = window.innerHeight + 'px';
+                })();
+            </script>
+
+            <script>
+                window.addEventListener("load", function () {
+                    var browserName = "";
+                    var browserMessage = "";
+
+                    // FIREFOX
+                    if (navigator.userAgent.indexOf("Firefox") !== -1) {
+                        browserName = "Mozilla Firefox";
+                    }
+                    // INTERNET EXPLORER
+                    else if (navigator.userAgent.indexOf("MSIE") !== -1) {
+                        browserName = "Internet Explorer";
+                    }
+                    // EDGE
+                    else if (navigator.userAgent.indexOf("Edge") !== -1 || navigator.userAgent.indexOf("Edg") !== -1) {
+                        browserName = "Edge";
+                    }
+                    // CHROME
+                    else if (navigator.userAgent.indexOf("Chrome") !== -1) {
+                        browserName = "Google Chrome";
+                    }
+                    // SAFARI
+                    else if (navigator.userAgent.indexOf("Safari") !== -1) {
+                        browserName = "Safari";
+                    }
+                    // OPERA
+                    else if (navigator.userAgent.indexOf("Opera") !== -1) {
+                        browserName = "Opera";
+                    }
+                    // TRIDENT (IE11)
+                    else if (navigator.userAgent.indexOf("Trident") !== -1) {
+                        browserName = "IE";
+                    }
+                    // OTHERS
+                    else {
+                        browserName = "Others";
+                    }
+
+                    if (browserName.localeCompare("IE") === 0) {
+                        browserMessage = "Uygulama Google Chrome ile uyumludur. Google Chrome kullanmayi deneyiniz.";
+                        printBrowserMessage(browserMessage);
+                    }
+                });
+
+                function printBrowserMessage(_browserMessage) {
+                    document.getElementById('browserMessage').innerHTML = _browserMessage;
+                }
+            </script></body>
+</html>
