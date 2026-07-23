@@ -1,0 +1,28 @@
+{
+  "name": "mutfaktasarimi",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "postinstall": "node patch-vercel-adapter.js",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/vercel": "^7.8.2",
+    "astro": "^4.16.10",
+    "lucide-astro": "^0.468.0",
+    "redis": "^4.7.0",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}

@@ -1,0 +1,95 @@
+---
+import { getDomainConfig } from '../config/domains';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { locals, request } = Astro;
+const domainConfig = locals?.domainConfig || getDomainConfig(request.headers.get('host') || undefined);
+
+const pageTitle = Astro.props.title || domainConfig.metaTitle;
+const pageDesc = Astro.props.description || domainConfig.metaDescription;
+const themeAccent = domainConfig.themeAccent;
+---
+
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <meta name="keywords" content={domainConfig.keywords} />
+    <link rel="canonical" href={domainConfig.canonicalUrl} />
+    
+    <!-- OpenGraph SEO -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={domainConfig.canonicalUrl} />
+    <meta property="og:site_name" content={domainConfig.siteName} />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Schema.org LocalBusiness Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "HomeGoodsStore",
+      "name": domainConfig.siteName,
+      "description": domainConfig.metaDescription,
+      "url": domainConfig.canonicalUrl,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bursa",
+        "addressCountry": "TR"
+      },
+      "areaServed": ["Bursa", "Nilüfer", "Balat", "Bademli", "Osmangazi", "Mudanya"],
+      "priceRange": "₺₺₺"
+    })} />
+    
+    <style is:global define:vars={{ themeAccent }}>
+      :root {
+        --font-sans: 'Plus Jakarta Sans', sans-serif;
+        --font-heading: 'Outfit', sans-serif;
+        --color-accent: var(--themeAccent);
+      }
+      body {
+        font-family: var(--font-sans);
+        background-color: #faf8f5;
+        color: #1c1917;
+        overflow-x: hidden;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+      }
+      .text-gradient-gold {
+        background: linear-gradient(135deg, #1c1917 0%, #b45309 60%, #d97706 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col antialiased selection:bg-amber-100 selection:text-amber-900">
+    <slot />
+
+    <script>
+      // Analytics track on page load
+      fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: window.location.pathname })
+      }).catch(() => {});
+    </script>
+  </body>
+</html>

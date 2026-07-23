@@ -1,0 +1,182 @@
+---
+const categories = [
+  {
+    id: "mdflam",
+    name: "MDF Lam",
+    tagline: "Doğal Dokular & Linco Modüler Yapı",
+    description: "MDF Lam kapaklar, gerçek ahşap ve taş dokularını yüksek yüzey dayanımı ile buluşturur. Linco Modüler Bağlantı teknolojimiz sayesinde kolay sökülüp takılabilir, ekstra dayanıklı bir yapı sunar.",
+    image: "/images/mdflam_kitchen_1784802734423.jpg",
+    features: [
+      "Linco Modüler Bağlantı Teknolojisi",
+      "Zengin Ahşap & Taş Dokusu",
+      "Kolay Temizlenebilir Yüzey",
+      "Çizilmeye & Isıya Dayanıklı"
+    ]
+  },
+  {
+    id: "highgloss",
+    name: "High Gloss",
+    tagline: "Aynamsı Yansıma & Gizli Modüler Kilit",
+    description: "High Gloss akrilik yüzeyler, derin ve aynamsı bir yansıma efekti sunarak mutfağınıza ferah bir atmosfer kazandırır. Linco modüler kilit sistemiyle vidasız temiz montaj estetiği sağlar.",
+    image: "/images/highgloss_kitchen_1784802746604.jpg",
+    features: [
+      "Linco Modüler Bağlantı Uyumu",
+      "Ultra Parlak Aynamsı Yansıma",
+      "UV Korumalı Sararmaz Kapak",
+      "Modern & Çizilmez Akrilik"
+    ]
+  },
+  {
+    id: "lake",
+    name: "Lake",
+    tagline: "Özel Renk İşçiliği & İpek Mat Dokunuş",
+    description: "İpek mat lake kapaklar, istenilen tüm RAL ve NCS renk kodlarında özel olarak fırınlanarak üretilir. Linco modüler bağlantı altyapımız ile yıllar geçse de sarkma ve esneme yapmaz.",
+    image: "/images/lake_kitchen_1784802757195.jpg",
+    features: [
+      "Linco Modüler Bağlantı Altyapısı",
+      "İstenilen Renkte Özel İmalat",
+      "Pürüzsüz İpek Mat Dokunuş",
+      "Yüksek Kaliteli Fırın Boya"
+    ]
+  }
+];
+---
+
+<section id="koleksiyon" class="py-20 relative">
+  <!-- Header -->
+  <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+    <span class="text-xs font-bold uppercase tracking-[0.25em] text-amber-900 bg-amber-100 px-4 py-2 rounded-full border border-amber-300">
+      KOLLEKSİYON & MOBİLYA DİZAYN
+    </span>
+    <h2 class="text-4xl md:text-5xl font-light text-stone-900 tracking-tight leading-tight">
+      Linco Modüler Bağlantılı Mutfaklar
+    </h2>
+    <div class="w-16 h-[2px] bg-gradient-to-r from-transparent via-amber-600 to-transparent mx-auto"></div>
+    <p class="text-stone-700 text-base md:text-lg leading-relaxed font-normal">
+      Mutfak tasarımlarımızda kullandığımız üç ana kapak grubunu ve yenilikçi <strong>Linco Modüler Bağlantı</strong> sistemimizi inceleyin.
+    </p>
+  </div>
+
+  <!-- Category Filter Buttons -->
+  <div class="flex justify-center items-center gap-3 mb-14 flex-wrap px-4">
+    <button 
+      type="button" 
+      data-filter="all" 
+      class="filter-btn active-filter text-sm font-semibold px-6 py-3 rounded-full border border-stone-900 bg-stone-900 text-white shadow-md transition-all duration-300"
+    >
+      Tüm Modeller
+    </button>
+    <button 
+      type="button" 
+      data-filter="mdflam" 
+      class="filter-btn text-sm font-semibold px-6 py-3 rounded-full border border-stone-300 bg-white text-stone-700 hover:text-stone-900 hover:border-stone-500 transition-all duration-300 shadow-xs"
+    >
+      MDF Lam
+    </button>
+    <button 
+      type="button" 
+      data-filter="highgloss" 
+      class="filter-btn text-sm font-semibold px-6 py-3 rounded-full border border-stone-300 bg-white text-stone-700 hover:text-stone-900 hover:border-stone-500 transition-all duration-300 shadow-xs"
+    >
+      High Gloss
+    </button>
+    <button 
+      type="button" 
+      data-filter="lake" 
+      class="filter-btn text-sm font-semibold px-6 py-3 rounded-full border border-stone-300 bg-white text-stone-700 hover:text-stone-900 hover:border-stone-500 transition-all duration-300 shadow-xs"
+    >
+      Lake
+    </button>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    {categories.map((cat) => (
+      <div 
+        data-category={cat.id} 
+        class="category-card group rounded-3xl bg-white border border-stone-300/80 hover:border-amber-600/50 shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col justify-between"
+      >
+        <!-- Image Box -->
+        <div class="relative h-80 overflow-hidden bg-stone-100">
+          <img 
+            src={cat.image} 
+            alt={cat.name} 
+            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent"></div>
+          
+          <div class="absolute top-4 left-4 flex gap-2">
+            <span class="text-xs uppercase tracking-widest font-bold px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-stone-900 shadow-sm">
+              {cat.name}
+            </span>
+            <span class="text-[11px] font-bold px-3 py-1.5 rounded-full bg-amber-500 text-slate-950 shadow-sm">
+              LİNCO MODÜLER
+            </span>
+          </div>
+
+          <div class="absolute bottom-4 left-6 right-6">
+            <span class="text-xs text-amber-200 font-semibold block">{cat.tagline}</span>
+            <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight mt-1">{cat.name} Seri</h3>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-7 md:p-9 space-y-6 flex-1 flex flex-col justify-between">
+          <p class="text-stone-700 text-sm md:text-base leading-relaxed font-normal">
+            {cat.description}
+          </p>
+
+          <!-- Feature List -->
+          <div class="space-y-3 pt-4 border-t border-stone-200">
+            {cat.features.map((feat) => (
+              <div class="flex items-center space-x-3 text-sm md:text-base font-medium text-stone-800">
+                <span class="w-2 h-2 rounded-full bg-amber-600 flex-shrink-0"></span>
+                <span>{feat}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Action Button -->
+          <div class="pt-4">
+            <a 
+              href={`https://wa.me/905320000000?text=${encodeURIComponent(`Merhaba, Linco Modüler Bağlantılı ${cat.name} mutfak seriniz hakkında bilgi almak istiyorum.`)}`}
+              target="_blank"
+              class="w-full py-4 px-5 rounded-xl border border-stone-300 bg-stone-50 hover:bg-stone-900 hover:text-white hover:border-stone-900 text-stone-900 text-sm md:text-base font-bold flex items-center justify-center space-x-2 transition-all duration-300 shadow-xs group/btn"
+            >
+              <span>{cat.name} Mobilya Dizayn Detayı</span>
+              <span class="transform group-hover/btn:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.category-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      filterBtns.forEach(b => {
+        b.classList.remove('active-filter', 'border-stone-900', 'bg-stone-900', 'text-white');
+        b.classList.add('border-stone-300', 'bg-white', 'text-stone-700');
+      });
+
+      btn.classList.add('active-filter', 'border-stone-900', 'bg-stone-900', 'text-white');
+      btn.classList.remove('border-stone-300', 'bg-white', 'text-stone-700');
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || filter === cat) {
+          (card as HTMLElement).style.display = 'flex';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

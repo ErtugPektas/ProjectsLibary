@@ -1,0 +1,219 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CategoryGallery from '../components/CategoryGallery.astro';
+import ConsultationForm from '../components/ConsultationForm.astro';
+import { getDomainConfig } from '../config/domains';
+
+const { locals, request, url } = Astro;
+const simDomain = url.searchParams.get('sim_domain');
+const host = simDomain || request.headers.get('host') || undefined;
+const domainConfig = getDomainConfig(host);
+---
+
+<Layout title={domainConfig.metaTitle} description={domainConfig.metaDescription}>
+  <!-- Minimal Light Navbar -->
+  <nav class="border-b border-stone-200/80 bg-white/95 backdrop-blur-xl sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-22 flex items-center justify-between">
+      <a href="/" class="flex flex-col">
+        <span class="text-3xl font-light tracking-tight text-stone-900 font-heading">
+          mutfak<span class="font-bold text-amber-700">tasarımı</span>
+        </span>
+        <span class="text-[11px] font-bold text-stone-500 uppercase tracking-widest -mt-1">
+          Mobilya Dizayn & Linco Modüler Sistem
+        </span>
+      </a>
+
+      <div class="hidden md:flex items-center space-x-10 text-sm font-semibold text-stone-800 tracking-wide">
+        <a href="#linco" class="hover:text-amber-700 transition-colors">Linco Modüler</a>
+        <a href="#koleksiyon" class="hover:text-amber-700 transition-colors">Koleksiyon</a>
+        <a href="#felsefemiz" class="hover:text-amber-700 transition-colors">Felsefemiz</a>
+        <a href="#kesif" class="hover:text-amber-700 transition-colors">Ücretsiz Keşif</a>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <a 
+          href="https://wa.me/905070779848" 
+          target="_blank"
+          class="text-xs md:text-sm font-bold px-5 py-3 rounded-full border border-amber-600/40 bg-amber-50 hover:bg-amber-100 text-amber-900 transition-all duration-300 shadow-xs"
+        >
+          <span>WhatsApp Danışma</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="relative pt-16 pb-24 overflow-hidden bg-gradient-to-b from-stone-50 via-white to-stone-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Text -->
+        <div class="lg:col-span-6 space-y-8 text-center lg:text-left">
+          <div class="inline-flex items-center space-x-2 bg-amber-100/90 border border-amber-300 px-4 py-2 rounded-full text-amber-950 text-xs font-bold tracking-widest uppercase">
+            <span>🔗 LİNCO MODÜLER BAĞLANTI SİSTEMİ</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-light text-stone-900 tracking-tight leading-[1.12]">
+            Mekanınıza Özel <br/>
+            <span class="font-bold text-gradient-gold">Mobilya Dizaynı</span>
+          </h1>
+
+          <p class="text-stone-700 text-base sm:text-xl max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            MDF Lam, High Gloss ve İpek Mat Lake kapaklarımızı, yenilikçi <strong>Linco Modüler Bağlantı</strong> teknolojisi ile birleştirerek yüksek dayanımlı mobilyalar üretiyoruz.
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <a 
+              href="#koleksiyon"
+              class="bg-stone-900 hover:bg-amber-700 text-white font-bold text-sm px-8 py-4 rounded-full shadow-lg transition-all duration-300"
+            >
+              Koleksiyonu İnceleyin
+            </a>
+            <a 
+              href="#linco"
+              class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-sm px-7 py-4 rounded-full shadow-xs transition-all duration-300"
+            >
+              Linco Teknolojisi →
+            </a>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="lg:col-span-6">
+          <div class="relative rounded-3xl overflow-hidden border border-stone-300 shadow-2xl bg-white">
+            <img 
+              src="/images/mdflam_kitchen_1784802734423.jpg" 
+              alt="mutfaktasarımı Linco Modüler Mobilya Dizayn"
+              class="w-full h-[480px] object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 via-transparent to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+              <div>
+                <span class="text-xs uppercase tracking-widest text-amber-200 font-bold block">Linco Modüler Kilitli Yapı</span>
+                <span class="text-xl font-medium text-white">Özel Mobilya Dizaynı</span>
+              </div>
+              <span class="bg-amber-500 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl">
+                LİNCO TECH
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Linco Modular Technology Highlight Banner -->
+  <section id="linco" class="py-16 bg-amber-50/70 border-y border-amber-200/80 my-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-amber-900 bg-amber-100 px-4 py-1.5 rounded-full border border-amber-300">
+          TEKNOLOJİ & İNOVASYON
+        </span>
+        <h2 class="text-3xl md:text-5xl font-bold text-stone-900">
+          Linco Modüler Bağlantı Sistemi Nedir?
+        </h2>
+        <p class="text-stone-700 text-base md:text-lg leading-relaxed">
+          Geleneksel vidalı montajın aksine, <strong>Linco Modüler Bağlantı</strong> teknolojisi mobilyalarınızda yüksek esneklik, estetik ve sökülüp takılabilir kilit dayanıklılığı sağlar.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-8 rounded-2xl bg-white border border-amber-200 shadow-sm space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold">
+            🔄
+          </div>
+          <h3 class="text-xl font-bold text-stone-900">Sökülüp Takılabilir Yapı</h3>
+          <p class="text-stone-600 text-sm md:text-base leading-relaxed">
+            Taşınma veya mekan değişikliği durumlarında mobilyalarınız vida delikleri yıpranmadan defalarca sökülüp yeniden kurulabilir.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-white border border-amber-200 shadow-sm space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold">
+            🛡️
+          </div>
+          <h3 class="text-xl font-bold text-stone-900">Ekstra Mukavemet</h3>
+          <p class="text-stone-600 text-sm md:text-base leading-relaxed">
+            Kilitli modüler gövde bağlantısı sayesinde ağır mutfak eşyaları ve tezgah yüklerinde dahi esneme ve sarkma yapmaz.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-white border border-amber-200 shadow-sm space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold">
+            ✨
+          </div>
+          <h3 class="text-xl font-bold text-stone-900">Gizli Montaj Estetiği</h3>
+          <p class="text-stone-600 text-sm md:text-base leading-relaxed">
+            Dışarıdan görünen çirkin vida tapaları ve bağlantı elemanları tamamen ortadan kalkar, pürüzsüz mobilya yüzeyi elde edilir.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Showcase (MDF Lam, High Gloss, Lake) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <CategoryGallery />
+
+    <!-- Philosophy Section -->
+    <section id="felsefemiz" class="py-20 border-t border-stone-200">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-9 rounded-3xl bg-white border border-stone-300/80 shadow-xs space-y-3">
+          <div class="text-amber-700 text-2xl font-bold">01</div>
+          <h3 class="text-xl font-bold text-stone-900">Sadelik ve Fonksiyon</h3>
+          <p class="text-stone-700 text-sm md:text-base leading-relaxed font-normal">
+            Gereksiz detaylardan arındırılmış, kullanım kolaylığı sağlayan ergonomik iç düzenleme ve mobilya dizayn sistemleri.
+          </p>
+        </div>
+
+        <div class="p-9 rounded-3xl bg-white border border-stone-300/80 shadow-xs space-y-3">
+          <div class="text-amber-700 text-2xl font-bold">02</div>
+          <h3 class="text-xl font-bold text-stone-900">Premium Malzeme</h3>
+          <p class="text-stone-700 text-sm md:text-base leading-relaxed font-normal">
+            Yüksek yüzey dayanımlı MDF Lam, sararmayan High Gloss akrilik ve fırınlanmış ipek mat lake kapaklar.
+          </p>
+        </div>
+
+        <div class="p-9 rounded-3xl bg-white border border-stone-300/80 shadow-xs space-y-3">
+          <div class="text-amber-700 text-2xl font-bold">03</div>
+          <h3 class="text-xl font-bold text-stone-900">Bursa Özel Üretim</h3>
+          <p class="text-stone-700 text-sm md:text-base leading-relaxed font-normal">
+            Bursa tesislerimizde milimetrik hassasiyetle imal edilen, Linco modüler bağlantılı kişiye özel mobilya montajı.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consultation Request Form -->
+    <ConsultationForm />
+  </main>
+
+  <!-- Footer -->
+  <footer id="iletisim" class="bg-stone-100 border-t border-stone-200 py-14 text-sm text-stone-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div>
+          <span class="text-2xl font-light text-stone-900 font-heading block">
+            mutfak<span class="font-bold text-amber-700">tasarımı</span>
+          </span>
+          <span class="text-xs font-semibold text-stone-600 block mt-1">Mobilya Dizayn & Linco Modüler Bağlantılı Koleksiyon</span>
+        </div>
+        <div class="flex items-center space-x-6 text-stone-700 font-medium">
+          <a href="#linco" class="hover:text-amber-700 transition-colors">Linco Sistem</a>
+          <a href="#koleksiyon" class="hover:text-amber-700 transition-colors">MDF Lam</a>
+          <a href="#koleksiyon" class="hover:text-amber-700 transition-colors">High Gloss</a>
+          <a href="#koleksiyon" class="hover:text-amber-700 transition-colors">Lake</a>
+          <a href="#kesif" class="hover:text-amber-700 transition-colors">Keşif Talebi</a>
+        </div>
+      </div>
+
+      <div class="border-t border-stone-200 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
+        <div>
+          © 2026 mutfaktasarımı. Tüm hakları saklıdır. Linco Modüler Bağlantılı Mobilya Dizaynı.
+        </div>
+        <div class="text-stone-500 font-mono text-xs">
+          Aktif Host: {domainConfig.domainName}
+        </div>
+      </div>
+    </div>
+  </footer>
+</Layout>

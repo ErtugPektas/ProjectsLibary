@@ -1,0 +1,33 @@
+---
+import { DOMAIN_CONFIGS } from '../config/domains';
+
+const { currentDomainId } = Astro.props;
+---
+
+<div class="bg-amber-50/90 border-b border-amber-200/60 text-xs py-2 px-4 backdrop-blur-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center space-x-2 text-amber-900 font-medium">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span class="font-semibold">🌐 Vercel 5-Domain SEO Simülatörü:</span>
+      <span class="text-amber-800/70 font-normal hidden md:inline">(Google Botları için bağımsız indekslenen domain varyasyonları)</span>
+    </div>
+    
+    <div class="flex flex-wrap items-center gap-1.5">
+      {Object.values(DOMAIN_CONFIGS).map((cfg) => {
+        const isActive = cfg.domainName === currentDomainId;
+        return (
+          <a
+            href={`?sim_domain=${cfg.domainName}`}
+            class={`px-2.5 py-1 rounded-full transition-all text-[11px] font-medium border ${
+              isActive 
+                ? 'bg-amber-600 text-white border-amber-600 font-semibold shadow-sm scale-105' 
+                : 'bg-white/80 text-stone-700 border-stone-200 hover:border-amber-500/50 hover:text-amber-900'
+            }`}
+          >
+            {cfg.domainName}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+---
+---
+
+<div id="kesif" class="my-24 rounded-3xl bg-white border border-stone-300/80 p-8 md:p-14 relative overflow-hidden shadow-lg">
+  <div class="absolute top-0 right-0 w-96 h-96 bg-amber-100/60 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <!-- Left Text -->
+    <div class="lg:col-span-6 space-y-6">
+      <span class="text-xs font-bold uppercase tracking-[0.25em] text-amber-900 bg-amber-100 px-4 py-2 rounded-full border border-amber-300">
+        LİNCO MODÜLER & MOBİLYA DİZAYN TALEBİ
+      </span>
+
+      <h2 class="text-3xl md:text-5xl font-light text-stone-900 tracking-tight leading-tight">
+        Mutfak Alanınız İçin Özel Mobilya Dizaynı İsteyin
+      </h2>
+
+      <p class="text-stone-700 text-base md:text-lg leading-relaxed font-normal">
+        Mobilya dizayn ekibimiz adresinize gelerek lazer ölçüm alsın, <strong>Linco Modüler Bağlantı</strong> teknolojisine sahip özel mutfak projenizi hazırlasın.
+      </p>
+
+      <div class="space-y-4 pt-2">
+        <div class="flex items-center space-x-3.5 text-sm md:text-base text-stone-800 font-medium">
+          <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-base flex-shrink-0">✓</div>
+          <span><strong>Linco Modüler Bağlantı</strong> Altyapısıyla Kolay Söküm & Taşınma</span>
+        </div>
+        <div class="flex items-center space-x-3.5 text-sm md:text-base text-stone-800 font-medium">
+          <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-base flex-shrink-0">✓</div>
+          <span>Bursa İçi Ücretsiz Lazer Ölçüm & Mobilya Dizayn Analizi</span>
+        </div>
+        <div class="flex items-center space-x-3.5 text-sm md:text-base text-stone-800 font-medium">
+          <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-base flex-shrink-0">✓</div>
+          <span>MDF Lam, High Gloss ve Lake Numuneleri ile Adreste İnceleme</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form -->
+    <div class="lg:col-span-6">
+      <form 
+        id="consultationForm"
+        class="space-y-5 bg-stone-50 p-7 md:p-9 rounded-2xl border border-stone-300/80 shadow-sm"
+      >
+        <div>
+          <label class="block text-sm font-semibold text-stone-800 mb-2">Adınız Soyadınız</label>
+          <input 
+            type="text" 
+            required 
+            placeholder="Örn: Ahmet Yılmaz"
+            class="w-full bg-white border border-stone-300 rounded-xl px-4 py-3.5 text-sm md:text-base text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-600 transition-colors shadow-xs"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-stone-800 mb-2">Telefon Numarası</label>
+          <input 
+            type="tel" 
+            required 
+            placeholder="05XX XXX XX XX"
+            class="w-full bg-white border border-stone-300 rounded-xl px-4 py-3.5 text-sm md:text-base text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-600 transition-colors shadow-xs"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-stone-800 mb-2">Tercih Ettiğiniz Kapak Grubu</label>
+          <select class="w-full bg-white border border-stone-300 rounded-xl px-4 py-3.5 text-sm md:text-base text-stone-900 focus:outline-none focus:border-amber-600 transition-colors shadow-xs">
+            <option value="MDF Lam">MDF Lam (Linco Modüler Ahşap Dokular)</option>
+            <option value="High Gloss">High Gloss (Linco Modüler Ultra Parlak Akrilik)</option>
+            <option value="Lake">Lake (Linco Modüler İpek Mat Özel Renk)</option>
+            <option value="Kararsızım">Kararsızım (Mobilya Dizayn Ekibine Danışmak İstiyorum)</option>
+          </select>
+        </div>
+
+        <button 
+          type="submit"
+          class="w-full bg-stone-900 hover:bg-amber-600 text-white font-bold py-4 px-5 rounded-xl text-sm md:text-base transition-all duration-300 shadow-md"
+        >
+          Mobilya Dizayn Talebini Gönder
+        </button>
+
+        <div id="formStatus" class="hidden text-center text-sm font-bold text-emerald-700 pt-2">
+          ✓ Talebiniz alındı. Mobilya dizayn uzmanımız sizinle en kısa sürede iletişime geçecektir.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('consultationForm');
+  const status = document.getElementById('formStatus');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    status?.classList.remove('hidden');
+    (form as HTMLFormElement).reset();
+  });
+</script>
